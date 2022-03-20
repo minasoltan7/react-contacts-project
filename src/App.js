@@ -5,42 +5,45 @@ import * as ContactsAPI from "./utils/ContactsAPI";
 import CreateContact from "./CreateContact";
 
 class App extends Component {
-  componentDidMount() {
-    ContactsAPI.getAll().then((contacts) => {
-      this.setState({
-        contacts: contacts,
-      });
-    });
-  }
-
   state = {
     contacts: [],
-    screen:"create"
-  };
-  // A method to handle removing contact when pressing X button
+    screen: 'list'
+  }
+  componentDidMount() {
+    ContactsAPI.getAll()
+      .then((contacts) => {
+        this.setState(() => ({
+          contacts
+        }))
+      })
+  }
   removeContact = (contact) => {
-    this.setState((currentState) => {
-      return {
-        contacts: currentState.contacts.filter((c) => {
-          return c.id !== contact.id;
-        }),
-      };
-    });
+    this.setState((currentState) => ({
+      contacts: currentState.contacts.filter((c) => {
+        return c.id !== contact.id
+      })
+    }))
     ContactsAPI.remove(contact)
-  };
-
+  }
   render() {
     return (
-      <div>{this.state.screen==="list" && (
-        <ListContacts
-          contacts={this.state.contacts}
-          onRemoveContact={this.removeContact}
-         />)}
-         {this.state.screen === "create" && (
-           <CreateContact />
-         )}
+      <div>
+        {this.state.screen === 'list' && (
+          <ListContacts
+            contacts={this.state.contacts}
+            onDeleteContact={this.removeContact}
+            onNavigate={() => {
+              this.setState(() => ({
+                screen: 'create'
+              }))
+            }}
+          />
+        )}
+        {this.state.screen === 'create' && (
+          <CreateContact />
+        )}
       </div>
-    );
+    )
   }
 }
 ListContacts.Proptypes = {
