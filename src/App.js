@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ListContacts from "./ListContacts";
 import Proptypes from "prop-types";
 import * as ContactsAPI from "./utils/ContactsAPI";
+import CreateContact from "./CreateContact";
 
 class App extends Component {
   componentDidMount() {
@@ -14,6 +15,7 @@ class App extends Component {
 
   state = {
     contacts: [],
+    screen:"create"
   };
   // A method to handle removing contact when pressing X button
   removeContact = (contact) => {
@@ -29,11 +31,14 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div>{this.state.screen==="list" && (
         <ListContacts
           contacts={this.state.contacts}
           onRemoveContact={this.removeContact}
-        />
+         />)}
+         {this.state.screen === "create" && (
+           <CreateContact />
+         )}
       </div>
     );
   }
