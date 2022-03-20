@@ -13,7 +13,7 @@ class ListContacts extends Component {
   clearQuery = () => this.updateQuery("");
 
   render() {
-    const { onRemoveContact, contacts} = this.props;
+    const { onDeleteContact, contacts} = this.props;
     const { query } = this.state;
 
     const showingContacts =
@@ -57,7 +57,7 @@ class ListContacts extends Component {
                 </div>
                 <button
                   className="contact-remove"
-                  onClick={() => onRemoveContact(contact)}
+                  onClick={() => onDeleteContact(contact)}
                 >
                   Remove
                 </button>
